@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Shape Morpher - Interactive Geometry Visualizer</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div id="controls">
+        <button id="toggle-panel">☰</button>
+        <div class="control-group">
+            <br>
+            <br>
+            <h3>Shape Controls</h3>
+            <div class="control-item">
+                <label class="control-label">Shape</label>
+                <select id="shape">
+                    <!-- Basic Shapes -->
+                    <option disabled selected>BASIC SHAPES</option>
+                    <option value="cube">Cube</option>
+                    <option value="sphere">Sphere</option>
+                    <option value="torus">Torus (Donut)</option>
+                    <option value="cylinder">Cylinder</option>
+                    <option value="cone">Cone</option>
+                
+                    <!-- Platonic Solids -->
+                    <option disabled>PLATONIC SOLIDS</option>
+                    <option value="tetrahedron">Tetrahedron</option>
+                    <option value="octahedron">Octahedron</option>
+                    <option value="dodecahedron">Dodecahedron</option>
+                    <option value="icosahedron">Icosahedron</option>
+                
+                    <!-- Mathematical Shapes -->
+                    <option disabled>MATHEMATICAL SHAPES</option>
+                    <option value="torusKnot">Torus Knot</option>
+                    <option value="steinmetzSolid">Steinmetz Solid</option>
+                    <option value="mobius">Möbius Strip</option>
+                    <option value="kleinBottle">Klein Bottle</option>
+                    <option value="trefoilKnot">Trefoil Knot</option>
+                    <option value="figureBight">Figure-8 Knot</option>
+                
+                    <!-- Geometric Variations -->
+                    <option disabled>GEOMETRIC VARIATIONS</option>
+                    <option value="triangularPrism">Triangular Prism</option>
+                    <option value="pentagonalPrism">Pentagonal Prism</option>
+                    <option value="hexagonalPrism">Hexagonal Prism</option>
+                    <option value="star">Star Polyhedron</option>
+                    <option value="gyroid">Gyroid Surface</option>
+                
+                    <!-- Artistic Shapes -->
+                    <option disabled>ARTISTIC SHAPES</option>
+                    <option value="horn">Spiral Horn</option>
+                    <option value="shell">Nautilus Shell</option>
+                    <option value="helix">Double Helix</option>
+                    <option value="wave">Wave Surface</option>
+                    <option value="twist">Twisted Cube</option>
+                
+                    <!-- Advanced Mathematical -->
+                    <option disabled>ADVANCED MATHEMATICAL</option>
+                    <option value="catenoid">Catenoid</option>
+                    <option value="helicoid">Helicoid</option>
+                    <option value="boySurface">Boy's Surface</option>
+                    <option value="romanSurface">Roman Surface</option>
+                    <option value="crossCap">Cross-Cap</option>
+                
+                    <!-- Fractals and Complex -->
+                    <option disabled>FRACTALS AND COMPLEX</option>
+                    <option value="sierpinski">Sierpinski Pyramid</option>
+                    <!-- <option value="mengerSponge">Menger Sponge</option> -->
+                    <option value="fibonacci">Fibonacci Spiral</option>
+                    <option value="superellipsoid">Superellipsoid</option>
+                    <option value="hyperboloid">Hyperboloid</option>
+                </select>                  
+            </div>
+            <div class="control-item">
+                <label class="control-label">Scale</label>
+                <input type="range" id="scale" min="0.5" max="5" step="0.1" value="1">
+            </div>
+            <div class="control-item">
+                <label class="control-label">Segments</label>
+                <input type="range" id="segments" min="3" max="64" step="1" value="32">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3>Animation Controls</h3>
+            <div class="control-item">
+                <label class="control-label">Rotation Speed</label>
+                <input type="range" id="speed" min="0" max="0.05" step="0.001" value="0.01">
+            </div>
+            <div class="control-item">
+                <label class="control-label">Direction</label>
+                <select id="direction">
+                    <option value="all">All Axes</option>
+                    <option value="x">X Only</option>
+                    <option value="y">Y Only</option>
+                    <option value="z">Z Only</option>
+                    <option value="xy">X + Y</option>
+                    <option value="xz">X + Z</option>
+                    <option value="yz">Y + Z</option>
+                    <option value="custom">Custom Path</option>
+                    <option value="none">Stop</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3>Material Controls</h3>
+            <div class="control-item">
+                <label class="control-label">Material Type</label>
+                <select id="materialType">
+                    <option value="standard">Standard</option>
+                    <option value="phong">Phong</option>
+                    <option value="physical">Physical</option>
+                    <option value="toon">Toon</option>
+                    <option value="gradient">Height Gradient</option>
+                    <option value="normal">Normal-based</option>
+                    <option value="wireframe">Wireframe</option>
+                    <!-- <option value="points">Points</option> -->
+                </select>
+            </div>
+            <div class="control-item">
+                <label class="control-label">Primary Color</label>
+                <input type="color" id="color" value="#00ff9d">
+            </div>
+            <div class="control-item">
+                <label class="control-label">Secondary Color (for gradients)</label>
+                <input type="color" id="color2" value="#ff00ff">
+            </div>
+            <div class="control-item">
+                <label class="control-label">Metalness</label>
+                <input type="range" id="metalness" min="0" max="1" step="0.1" value="0.5">
+            </div>
+            <div class="control-item">
+                <label class="control-label">Roughness</label>
+                <input type="range" id="roughness" min="0" max="1" step="0.1" value="0.5">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script type="module"  src="scripts/main.js"></script>
+</body>
+</html>
