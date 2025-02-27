@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Shape Morpher - Interactive Geometry Visualizer</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="An interactive 3D geometry visualization tool for exploring mathematical shapes and surfaces">
 </head>
 <body>
+    <!-- Loading animation -->
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div class="toast" id="toast-notification"></div>
+
+    <!-- Controls panel -->
     <div id="controls">
-        <button id="toggle-panel">☰</button>
+        <button id="toggle-panel"><i class="fas fa-chevron-left"></i></button>
+        <button id="mode-toggle"><i class="fas fa-moon"></i></button>
+
         <div class="control-group">
-            <br>
-            <br>
-            <h3>Shape Controls</h3>
+            <br><br>
+            <h3>SHAPE CONTROLS</h3>
             <div class="control-item">
                 <label class="control-label">Shape</label>
                 <select id="shape">
@@ -67,7 +79,6 @@
                     <!-- Fractals and Complex -->
                     <option disabled>FRACTALS AND COMPLEX</option>
                     <option value="sierpinski">Sierpinski Pyramid</option>
-                    <!-- <option value="mengerSponge">Menger Sponge</option> -->
                     <option value="fibonacci">Fibonacci Spiral</option>
                     <option value="superellipsoid">Superellipsoid</option>
                     <option value="hyperboloid">Hyperboloid</option>
@@ -76,10 +87,12 @@
             <div class="control-item">
                 <label class="control-label">Scale</label>
                 <input type="range" id="scale" min="0.5" max="5" step="0.1" value="1">
+                <span class="value-display" id="scale-value">1.0</span>
             </div>
             <div class="control-item">
                 <label class="control-label">Segments</label>
                 <input type="range" id="segments" min="3" max="64" step="1" value="32">
+                <span class="value-display" id="segments-value">32</span>
             </div>
         </div>
 
@@ -88,6 +101,7 @@
             <div class="control-item">
                 <label class="control-label">Rotation Speed</label>
                 <input type="range" id="speed" min="0" max="0.05" step="0.001" value="0.01">
+                <span class="value-display" id="speed-value">0.01</span>
             </div>
             <div class="control-item">
                 <label class="control-label">Direction</label>
@@ -117,7 +131,6 @@
                     <option value="gradient">Height Gradient</option>
                     <option value="normal">Normal-based</option>
                     <option value="wireframe">Wireframe</option>
-                    <!-- <option value="points">Points</option> -->
                 </select>
             </div>
             <div class="control-item">
@@ -131,18 +144,42 @@
             <div class="control-item">
                 <label class="control-label">Metalness</label>
                 <input type="range" id="metalness" min="0" max="1" step="0.1" value="0.5">
+                <span class="value-display" id="metalness-value">0.5</span>
             </div>
             <div class="control-item">
                 <label class="control-label">Roughness</label>
                 <input type="range" id="roughness" min="0" max="1" step="0.1" value="0.5">
+                <span class="value-display" id="roughness-value">0.5</span>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <h3>Scene Controls</h3>
+            <div class="control-item">
+                <label class="control-label">Background Color</label>
+                <input type="color" id="bg-color" value="#000000">
+            </div>
+            <div class="control-item">
+                <button id="reset-camera" class="control-button">Reset Camera</button>
+                <button id="reset-all" class="control-button">Reset All Settings</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="shape-info">
+                <h3>Shape Information</h3>
+                <div id="shape-description">
+                    Select a shape to see information about it.
+                </div>
             </div>
         </div>
     </div>
     
     <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     
     <!-- Custom JavaScript -->
-    <script type="module"  src="scripts/main.js"></script>
+    <script type="module" src="scripts/app.js"></script>
 </body>
 </html>

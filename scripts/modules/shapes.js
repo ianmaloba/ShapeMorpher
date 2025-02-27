@@ -1,4 +1,9 @@
+// shapes.js - Handles creation and management of 3D geometries
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
+
+// Constants
+const PI = Math.PI;
+const TWO_PI = 2 * Math.PI;
 
 // Utility function to create parametric geometry
 function createParametricGeometry(func, slices, stacks) {
@@ -62,59 +67,9 @@ function createSierpinskiPyramid(detail) {
   
     return geometry;
 }
-  
-// Helper function for Menger Sponge
-function createMengerSponge(detail) {
-    const boxes = [];
-    const size = Math.pow(3, detail);
-    const unit = 1 / size;
-  
-    function addBox(x, y, z, scale) {
-      const box = new THREE.BoxGeometry(scale, scale, scale);
-      box.translate(
-        (x + 0.5) * scale - 0.5,
-        (y + 0.5) * scale - 0.5,
-        (z + 0.5) * scale - 0.5
-      );
-      boxes.push(box);
-    }
-  
-    function isRemoved(x, y, z) {
-      while (x > 0 || y > 0 || z > 0) {
-        if (x % 3 === 1 && y % 3 === 1 || 
-            y % 3 === 1 && z % 3 === 1 || 
-            z % 3 === 1 && x % 3 === 1) {
-          return true;
-        }
-        x = Math.floor(x / 3);
-        y = Math.floor(y / 3);
-        z = Math.floor(z / 3);
-      }
-      return false;
-    }
-  
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
-        for (let z = 0; z < size; z++) {
-          if (!isRemoved(x, y, z)) {
-            addBox(x, y, z, unit);
-          }
-        }
-      }
-    }
-  
-    const finalGeometry = THREE.BufferGeometryUtils.mergeBufferGeometries(boxes, true);
-    finalGeometry.computeVertexNormals();
-  
-    return finalGeometry;
-}
 
-// Main geometry creation function
-export function createGeometry(shapeName, segments = 32) {
-  const detail = Math.min(2, Math.floor(segments / 16));
-  const PI = Math.PI;
-  const TWO_PI = 2 * Math.PI;
-
+// Category: Basic Shapes
+function createBasicShape(shapeName, segments) {
   switch (shapeName) {
     case 'cube':
       return new THREE.BoxGeometry(2, 2, 2);
@@ -126,6 +81,14 @@ export function createGeometry(shapeName, segments = 32) {
       return new THREE.CylinderGeometry(1, 1, 2, segments);
     case 'cone':
       return new THREE.ConeGeometry(1, 2, segments);
+    default:
+      return null;
+  }
+}
+
+// Category: Platonic Solids
+function createPlatonicSolid(shapeName) {
+  switch (shapeName) {
     case 'tetrahedron':
       return new THREE.TetrahedronGeometry(1);
     case 'octahedron':
@@ -134,8 +97,16 @@ export function createGeometry(shapeName, segments = 32) {
       return new THREE.DodecahedronGeometry(1);
     case 'icosahedron':
       return new THREE.IcosahedronGeometry(1);
+    default:
+      return null;
+  }
+}
+
+// Category: Mathematical Shapes
+function createMathematicalShape(shapeName, segments) {
+  switch (shapeName) {
     case 'torusKnot':
-      return new THREE.TorusKnotGeometry(1, 0.4, segments, segments);
+      return new THREE.TorusKnotGeometry(1, 0.4, segments, Math.min(segments, 16));
     case 'steinmetzSolid':
       return createParametricGeometry((u, v, target) => {
         u *= TWO_PI;
@@ -163,9 +134,17 @@ export function createGeometry(shapeName, segments = 32) {
         target.z = r * Math.sin(v);
       }, segments, segments);
     case 'trefoilKnot':
-      return new THREE.TorusKnotGeometry(1, 0.4, segments, segments, 2, 3);
+      return new THREE.TorusKnotGeometry(1, 0.4, segments, Math.min(segments, 16), 2, 3);
     case 'figureBight':
-      return new THREE.TorusKnotGeometry(1, 0.4, segments, segments, 4, 5);
+      return new THREE.TorusKnotGeometry(1, 0.4, segments, Math.min(segments, 16), 4, 5);
+    default:
+      return null;
+  }
+}
+
+// Category: Geometric Variations
+function createGeometricVariation(shapeName, segments) {
+  switch (shapeName) {
     case 'triangularPrism':
       return new THREE.CylinderGeometry(1, 1, 2, 3);
     case 'pentagonalPrism':
@@ -182,124 +161,221 @@ export function createGeometry(shapeName, segments = 32) {
         target.y = Math.sin(v) * Math.cos(u);
         target.z = Math.sin(u + v);
       }, segments, segments);
+    default:
+      return null;
+  }
+}
+
+// Category: Artistic Shapes
+function createArtisticShape(shapeName, segments) {
+  switch (shapeName) {
     case 'horn':
       return createParametricGeometry((u, v, target) => {
         u *= TWO_PI;
         v = v * 2 - 1;
-        target.x = v * Math.cos(u);
-        target.y = v * Math.sin(u);
+        const scale = Math.pow(1 - v, 0.8) * 0.6 + 0.4;
+        target.x = scale * Math.cos(u + 6 * v);
+        target.y = scale * Math.sin(u + 6 * v);
         target.z = v;
       }, segments, segments);
     case 'shell':
       return createParametricGeometry((u, v, target) => {
-        u *= TWO_PI;
-        v = v * 2 - 1;
-        const radius = 1 + v * 0.5;
-        target.x = radius * Math.cos(u);
-        target.y = radius * Math.sin(u);
-        target.z = v;
+        u *= 4 * PI;
+        v = v * PI;
+        
+        const a = 0.2;
+        const b = 0.6;
+        const c = 0.2;
+        const n = 4;
+        
+        const r = a + b * Math.pow(v / PI, n);
+        
+        target.x = r * Math.cos(u) * Math.sin(v);
+        target.y = r * Math.sin(u) * Math.sin(v);
+        target.z = r * Math.cos(v) - c * u;
       }, segments, segments);
     case 'helix':
       return createParametricGeometry((u, v, target) => {
-        u *= TWO_PI;
-        v *= 2;
-        target.x = Math.cos(u);
-        target.y = Math.sin(u);
-        target.z = v;
+        u *= PI * 4;
+        v = v * 2 - 1;
+        
+        const radius = 0.3;
+        const coil = 1.0;
+        
+        target.x = Math.cos(u) + radius * Math.cos(u) * Math.cos(u * coil);
+        target.y = Math.sin(u) + radius * Math.sin(u) * Math.cos(u * coil);
+        target.z = v * 2 + radius * Math.sin(u * coil);
       }, segments, segments);
     case 'wave':
       return createParametricGeometry((u, v, target) => {
-        u *= TWO_PI;
-        v *= 2;
+        u = u * 2 - 1;
+        v = v * 2 - 1;
+        
+        const freq = 3;
+        const amp = 0.2;
+        
         target.x = u;
         target.y = v;
-        target.z = Math.sin(u * v);
+        target.z = amp * Math.sin(freq * PI * u) * Math.sin(freq * PI * v);
       }, segments, segments);
     case 'twist':
       return createParametricGeometry((u, v, target) => {
-        u *= TWO_PI;
-        v *= 2;
-        target.x = Math.cos(u) * (1 + v);
-        target.y = Math.sin(u) * (1 + v);
-        target.z = u;
+        u = u * 2 - 1;
+        v = v * 2 - 1;
+        const w = 0.35;
+        
+        target.x = u * Math.cos(PI * v * w);
+        target.y = u * Math.sin(PI * v * w);
+        target.z = v;
       }, segments, segments);
+    default:
+      return null;
+  }
+}
+
+// Category: Advanced Mathematical Shapes
+function createAdvancedMathShape(shapeName, segments) {
+  switch (shapeName) {
     case 'catenoid':
       return createParametricGeometry((u, v, target) => {
         u = u * 2 - 1;
         v *= TWO_PI;
-        target.x = Math.cosh(u) * Math.cos(v);
-        target.y = Math.cosh(u) * Math.sin(v);
+        
+        const c = Math.cosh(u);
+        target.x = c * Math.cos(v);
+        target.y = c * Math.sin(v);
         target.z = u;
       }, segments, segments);
     case 'helicoid':
       return createParametricGeometry((u, v, target) => {
         u = u * 2 - 1;
         v *= TWO_PI;
+        
         target.x = u * Math.cos(v);
         target.y = u * Math.sin(v);
-        target.z = v;
+        target.z = v / PI;
       }, segments, segments);
     case 'boySurface':
       return createParametricGeometry((u, v, target) => {
-        u *= TWO_PI;
+        u *= PI;
         v *= TWO_PI;
-        const x = Math.sin(u) * Math.cos(v);
-        const y = Math.sin(u) * Math.sin(v);
-        const z = Math.cos(u);
-        target.x = x * z;
-        target.y = y * z;
-        target.z = z * z;
+        
+        const a = Math.sin(u);
+        const b = Math.cos(u) * Math.sin(v);
+        const c = Math.cos(u) * Math.cos(v);
+        const d = 0.5 * (Math.pow(c, 3) - 3 * c * Math.pow(b, 2));
+        
+        target.x = a * d;
+        target.y = a * (Math.pow(b, 3) - 3 * b * Math.pow(c, 2));
+        target.z = -0.5 * a * (Math.pow(b, 2) * c + Math.pow(c, 3));
       }, segments, segments);
     case 'romanSurface':
       return createParametricGeometry((u, v, target) => {
         u *= TWO_PI;
-        v = v * 2 - 1;
-        target.x = Math.sin(u) * Math.sin(2 * v);
-        target.y = Math.sin(2 * u) * Math.cos(v);
-        target.z = Math.cos(u) * Math.sin(2 * v);
+        v *= PI;
+        
+        target.x = Math.sin(2 * u) * Math.sin(v) * Math.sin(v);
+        target.y = Math.sin(u) * Math.cos(v) * Math.sin(v);
+        target.z = Math.cos(u) * Math.sin(v);
       }, segments, segments);
     case 'crossCap':
       return createParametricGeometry((u, v, target) => {
-        u *= TWO_PI;
-        v = v * 2 - 1;
-        target.x = Math.sin(u) * Math.sin(2 * v);
-        target.y = Math.cos(u) * Math.sin(2 * v);
-        target.z = Math.cos(2 * v);
+        u *= PI;
+        v *= TWO_PI;
+        
+        target.x = Math.sin(u) * Math.sin(v);
+        target.y = Math.sin(u) * Math.cos(v);
+        target.z = Math.cos(u) * Math.sin(2 * v) / 2;
       }, segments, segments);
+    default:
+      return null;
+  }
+}
+
+// Category: Fractals and Complex Shapes
+function createFractalShape(shapeName, segments, detail = 2) {
+  switch (shapeName) {
     case 'sierpinski':
       return createSierpinskiPyramid(detail);
-    case 'mengerSponge':
-      return createMengerSponge(detail);
     case 'fibonacci':
       return createParametricGeometry((u, v, target) => {
         const phi = (1 + Math.sqrt(5)) / 2;
         const angle = u * TWO_PI * phi;
         const radius = Math.sqrt(u);
+        
         target.x = radius * Math.cos(angle);
         target.y = radius * Math.sin(angle);
         target.z = v * 2 - 1;
       }, segments, segments);
     case 'superellipsoid':
       return createParametricGeometry((u, v, target) => {
-        u = u * TWO_PI - PI;
-        v = v * TWO_PI - PI;
-        const a = Math.cos(v);
-        const b = Math.sin(v);
-        const c = Math.cos(u);
-        const d = Math.sin(u);
-        target.x = a * Math.sign(c) * Math.pow(Math.abs(c), 0.6);
-        target.y = b * Math.sign(c) * Math.pow(Math.abs(c), 0.6);
-        target.z = d * Math.sign(d) * Math.pow(Math.abs(d), 0.6);
+        u = u * PI - PI/2;
+        v *= TWO_PI;
+        
+        const n1 = 0.7; // Shape parameter
+        const n2 = 0.4; // Shape parameter
+        
+        const cu = Math.cos(u);
+        const su = Math.sin(u);
+        const cv = Math.cos(v);
+        const sv = Math.sin(v);
+        
+        const sgncu = cu >= 0 ? 1 : -1;
+        const sgnsu = su >= 0 ? 1 : -1;
+        const sgncv = cv >= 0 ? 1 : -1;
+        const sgnsv = sv >= 0 ? 1 : -1;
+        
+        target.x = sgncu * Math.pow(Math.abs(cu), n1) * sgncv * Math.pow(Math.abs(cv), n2);
+        target.y = sgncu * Math.pow(Math.abs(cu), n1) * sgnsv * Math.pow(Math.abs(sv), n2);
+        target.z = sgnsu * Math.pow(Math.abs(su), n1);
       }, segments, segments);
     case 'hyperboloid':
       return createParametricGeometry((u, v, target) => {
         u = (u - 0.5) * 2;
         v *= TWO_PI;
+        
+        const a = 0.5; // Parameter for hyperboloid type
+        
         target.x = Math.sqrt(1 + u * u) * Math.cos(v);
         target.y = Math.sqrt(1 + u * u) * Math.sin(v);
-        target.z = u;
+        target.z = a * u;
       }, segments, segments);
     default:
-      return new THREE.BoxGeometry(2, 2, 2);
+      return null;
   }
+}
+
+// Main function to create geometry based on shape name
+export function createGeometry(shapeName, segments = 32) {
+  // Limit segments to reasonable values
+  segments = Math.min(Math.max(segments, 3), 128);
+  
+  // Calculate detail level for recursive shapes
+  const detail = Math.min(3, Math.floor(segments / 16));
+  
+  // Try each category
+  let geometry = createBasicShape(shapeName, segments);
+  if (geometry) return geometry;
+  
+  geometry = createPlatonicSolid(shapeName);
+  if (geometry) return geometry;
+  
+  geometry = createMathematicalShape(shapeName, segments);
+  if (geometry) return geometry;
+  
+  geometry = createGeometricVariation(shapeName, segments);
+  if (geometry) return geometry;
+  
+  geometry = createArtisticShape(shapeName, segments);
+  if (geometry) return geometry;
+  
+  geometry = createAdvancedMathShape(shapeName, segments);
+  if (geometry) return geometry;
+  
+  geometry = createFractalShape(shapeName, segments, detail);
+  if (geometry) return geometry;
+  
+  // Default to cube if shape not found
+  console.warn(`Shape "${shapeName}" not recognized. Defaulting to cube.`);
+  return new THREE.BoxGeometry(2, 2, 2);
 }

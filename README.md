@@ -9,6 +9,7 @@ A simple 3D geometry visualization tool that lets you explore and manipulate var
 * **Shape Selection**: basic forms, platonic solids, mathematical surfaces, fractals, and more.
 * **Customization**: Adjust scale, segments, materials, and colors.
 * **Animations**: Control rotation speed and direction.
+* **Material Effects**: Choose from standard, physical, toon, gradient, and wireframe materials.
 
 ## Shapes
 
@@ -56,23 +57,78 @@ To run this project, you'll need:
     * Select material type from the **Material Type** dropdown.
     * Adjust **Metalness** and **Roughness** sliders for reflective and matte effects.
     * Use the color pickers to set **Primary** and **Secondary** colors.
+4. **Interface Controls**:
+    * Change background color with the color picker.
+    * Toggle between light and dark mode with the moon/sun icon.
+    * Collapse or expand the control panel with the chevron icon.
+    * Reset camera position or all settings using the control buttons.
 
 ### Example Code:
 
 #### Generate a Sierpinski Pyramid
 ```javascript
-const sierpinskiGeometry = createSierpinskiPyramid(3); // Detail level: 3
-const material = new THREE.MeshStandardMaterial({ color: '#ff00ff', wireframe: true });
+const detail = 3; // Detail level: 3
+const sierpinskiGeometry = createSierpinskiPyramid(detail);
+const material = new THREE.MeshStandardMaterial({ 
+  color: '#ff00ff', 
+  wireframe: true 
+});
 const sierpinski = new THREE.Mesh(sierpinskiGeometry, material);
 scene.add(sierpinski);
-```
- Then create a helper function for Sierpinski Pyramid
 
+// Helper function for Sierpinski Pyramid
+function createSierpinskiPyramid(detail) {
+  const vertices = [
+    new THREE.Vector3(0, 1, 0),   // Top
+    new THREE.Vector3(-1, -1, 1), // Front left
+    new THREE.Vector3(1, -1, 1),  // Front right
+    new THREE.Vector3(0, -1, -1)  // Back
+  ];
+
+  function subdivide(v1, v2, v3, depth) {
+    if (depth === 0) {
+      return [v1, v2, v3];
+    }
+
+    const v12 = new THREE.Vector3().addVectors(v1, v2).multiplyScalar(0.5);
+    const v23 = new THREE.Vector3().addVectors(v2, v3).multiplyScalar(0.5);
+    const v31 = new THREE.Vector3().addVectors(v3, v1).multiplyScalar(0.5);
+
+    return [
+      ...subdivide(v1, v12, v31, depth - 1),
+      ...subdivide(v12, v2, v23, depth - 1),
+      ...subdivide(v31, v23, v3, depth - 1)
+    ];
+  }
+
+  // Generate geometry and return
+  // ...
+}
+```
+
+
+## Project Structure
+```plaintext
+📦 ShapeMorpher
+├── index.html               # Main HTML file
+├── styles/
+│   ├── main.css            # Additional styles and extensions
+│   └── style.css           # Base styles with light/dark theme support
+└── scripts/
+    ├── app.js              # Main application logic
+    └── modules/
+        ├── scene.js        # Three.js scene setup
+        ├── shapes.js       # 3D geometry creation functions
+        ├── materials.js    # Material creation and management
+        ├── ui.js           # UI utility functions
+        └── descriptions.js # Educational shape descriptions
+```
 ## Built With
 
 * Three.js
 * HTML5/CSS3
 * JavaScript
+* Font Awesome
 
 ## License
 
