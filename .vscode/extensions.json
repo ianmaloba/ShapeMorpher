@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.live-server",
+    "ritwickdey.liveserver",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode.theme-predawnkit",
+    "PKief.material-icon-theme",
+    "aaron-bond.better-comments",
+    "streetsidesoftware.code-spell-checker",
+    "ms-vscode.hexeditor",
+    "ms-vscode.vscode-github-issue-notebooks",
+    "ms-vscode.remote-repositories"
+  ]
+}

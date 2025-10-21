@@ -1,0 +1,71 @@
+{
+  "name": "shape-morpher",
+  "version": "1.0.0",
+  "description": "An interactive 3D geometry visualization tool for exploring mathematical shapes and surfaces",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8080",
+    "start": "python -m http.server 8080",
+    "build": "node scripts/build.js",
+    "test": "echo \"No tests specified yet\" && exit 0",
+    "lint": "eslint scripts/ --ext .js",
+    "lint:fix": "eslint scripts/ --ext .js --fix",
+    "format": "prettier --write \"**/*.{js,html,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,html,css,md}\"",
+    "serve:prod": "python -m http.server 3000",
+    "validate": "npm run lint && npm run format:check",
+    "prepare": "echo \"Setting up development environment...\"",
+    "docs": "jsdoc scripts/ -d docs/ -r",
+    "clean": "rmdir /s /q docs node_modules 2>nul || rm -rf docs node_modules",
+    "setup": "npm install && echo \"Development setup complete!\""
+  },
+  "keywords": [
+    "3d",
+    "geometry",
+    "visualization",
+    "mathematics",
+    "three.js",
+    "webgl",
+    "interactive",
+    "educational",
+    "shapes",
+    "morphing"
+  ],
+  "author": "Ian Maloba",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ianmaloba/ShapeMorpher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ianmaloba/ShapeMorpher/issues"
+  },
+  "homepage": "https://github.com/ianmaloba/ShapeMorpher#readme",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "jsdoc": "^4.0.2",
+    "prettier": "^3.2.5",
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
+  "files": [
+    "index.html",
+    "scripts/",
+    "styles/",
+    "README.md",
+    "LICENSE"
+  ]
+}

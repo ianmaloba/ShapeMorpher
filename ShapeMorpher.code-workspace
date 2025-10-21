@@ -1,0 +1,88 @@
+{
+  "folders": [
+    {
+      "name": "ShapeMorpher",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "*.js": "javascript",
+      "*.html": "html",
+      "*.css": "css"
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.git": true,
+      "**/docs": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/.git/**": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ritwickdey.liveserver",
+      "ms-vscode.live-server"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Start Dev Server",
+        "type": "shell",
+        "command": "python",
+        "args": [
+          "scripts/dev-server.py"
+        ],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Build Project",
+        "type": "shell",
+        "command": "node",
+        "args": [
+          "scripts/build.js"
+        ],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Install Dependencies",
+        "type": "shell",
+        "command": "npm",
+        "args": [
+          "install"
+        ],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        },
+        "problemMatcher": []
+      }
+    ]
+  }
+}
