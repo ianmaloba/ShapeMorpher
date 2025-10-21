@@ -11,11 +11,11 @@ function initScene() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 1);
     renderer.setPixelRatio(window.devicePixelRatio);
-    
+
     // Camera positioning
     camera.position.set(0, 0, 5);
     camera.lookAt(0, 0, 0);
-    
+
     // Add lights
     addLights();
 }
@@ -26,16 +26,16 @@ function addLights() {
     const light = new THREE.PointLight(0xffffff, 1, 100);
     light.position.set(10, 10, 10);
     scene.add(light);
-    
+
     // Ambient light for base illumination
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     scene.add(ambientLight);
-    
+
     // Directional light for shadows
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     directionalLight.position.set(-10, 10, -10);
     scene.add(directionalLight);
-    
+
     // Hemisphere light for natural lighting
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.3);
     hemiLight.position.set(0, 20, 0);
@@ -43,9 +43,9 @@ function addLights() {
 }
 
 // Export the objects and functions
-export { 
-    scene, 
-    camera, 
-    renderer, 
+export {
+    scene,
+    camera,
+    renderer,
     initScene
 };
