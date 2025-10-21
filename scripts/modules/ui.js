@@ -5,7 +5,7 @@ function showToast(message, duration = 3000) {
     const toast = document.getElementById('toast-notification');
     toast.textContent = message;
     toast.classList.add('show');
-    
+
     setTimeout(() => {
         toast.classList.remove('show');
     }, duration);
@@ -44,37 +44,37 @@ function applyPreset(presetName) {
             color2: '#00ffcc'
         }
     };
-    
+
     const preset = presets[presetName];
     if (!preset) return;
-    
+
     // Apply settings to the UI controls
     if (preset.materialType) {
         document.getElementById('materialType').value = preset.materialType;
     }
-    
+
     if (preset.metalness !== undefined) {
         document.getElementById('metalness').value = preset.metalness;
         updateValueDisplay('metalness-value', preset.metalness);
     }
-    
+
     if (preset.roughness !== undefined) {
         document.getElementById('roughness').value = preset.roughness;
         updateValueDisplay('roughness-value', preset.roughness);
     }
-    
+
     if (preset.color) {
         document.getElementById('color').value = preset.color;
     }
-    
+
     if (preset.color2) {
         document.getElementById('color2').value = preset.color2;
     }
-    
+
     // Trigger material update
     const event = new Event('change');
     document.getElementById('materialType').dispatchEvent(event);
-    
+
     showToast(`Applied ${presetName} preset`);
 }
 

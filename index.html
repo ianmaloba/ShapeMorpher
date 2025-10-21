@@ -28,61 +28,9 @@
             <div class="control-item">
                 <label class="control-label">Shape</label>
                 <select id="shape">
-                    <!-- Basic Shapes -->
-                    <option disabled selected>BASIC SHAPES</option>
-                    <option value="cube">Cube</option>
-                    <option value="sphere">Sphere</option>
-                    <option value="torus">Torus (Donut)</option>
-                    <option value="cylinder">Cylinder</option>
-                    <option value="cone">Cone</option>
-                
-                    <!-- Platonic Solids -->
-                    <option disabled>PLATONIC SOLIDS</option>
-                    <option value="tetrahedron">Tetrahedron</option>
-                    <option value="octahedron">Octahedron</option>
-                    <option value="dodecahedron">Dodecahedron</option>
-                    <option value="icosahedron">Icosahedron</option>
-                
-                    <!-- Mathematical Shapes -->
-                    <option disabled>MATHEMATICAL SHAPES</option>
-                    <option value="torusKnot">Torus Knot</option>
-                    <option value="steinmetzSolid">Steinmetz Solid</option>
-                    <option value="mobius">Möbius Strip</option>
-                    <option value="kleinBottle">Klein Bottle</option>
-                    <option value="trefoilKnot">Trefoil Knot</option>
-                    <option value="figureBight">Figure-8 Knot</option>
-                
-                    <!-- Geometric Variations -->
-                    <option disabled>GEOMETRIC VARIATIONS</option>
-                    <option value="triangularPrism">Triangular Prism</option>
-                    <option value="pentagonalPrism">Pentagonal Prism</option>
-                    <option value="hexagonalPrism">Hexagonal Prism</option>
-                    <option value="star">Star Polyhedron</option>
-                    <option value="gyroid">Gyroid Surface</option>
-                
-                    <!-- Artistic Shapes -->
-                    <option disabled>ARTISTIC SHAPES</option>
-                    <option value="horn">Spiral Horn</option>
-                    <option value="shell">Nautilus Shell</option>
-                    <option value="helix">Double Helix</option>
-                    <option value="wave">Wave Surface</option>
-                    <option value="twist">Twisted Cube</option>
-                
-                    <!-- Advanced Mathematical -->
-                    <option disabled>ADVANCED MATHEMATICAL</option>
-                    <option value="catenoid">Catenoid</option>
-                    <option value="helicoid">Helicoid</option>
-                    <option value="boySurface">Boy's Surface</option>
-                    <option value="romanSurface">Roman Surface</option>
-                    <option value="crossCap">Cross-Cap</option>
-                
-                    <!-- Fractals and Complex -->
-                    <option disabled>FRACTALS AND COMPLEX</option>
-                    <option value="sierpinski">Sierpinski Pyramid</option>
-                    <option value="fibonacci">Fibonacci Spiral</option>
-                    <option value="superellipsoid">Superellipsoid</option>
-                    <option value="hyperboloid">Hyperboloid</option>
-                </select>                  
+                    <!-- Shapes will be dynamically populated -->
+                    <option value="cube">Loading shapes...</option>
+                </select>
             </div>
             <div class="control-item">
                 <label class="control-label">Scale</label>
@@ -174,11 +122,11 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Three.js Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
-    
+
     <!-- Custom JavaScript -->
     <script type="module" src="scripts/app.js"></script>
 </body>

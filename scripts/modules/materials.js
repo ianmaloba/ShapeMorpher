@@ -7,9 +7,9 @@ function createMaterial() {
     const color2 = new THREE.Color(document.getElementById('color2').value);
     const metalness = parseFloat(document.getElementById('metalness').value);
     const roughness = parseFloat(document.getElementById('roughness').value);
-  
+
     let material;
-    
+
     switch (materialType) {
         case 'phong':
             material = new THREE.MeshPhongMaterial({
@@ -28,7 +28,7 @@ function createMaterial() {
             });
             break;
         case 'toon':
-            material = new THREE.MeshToonMaterial({ 
+            material = new THREE.MeshToonMaterial({
                 color: color,
                 gradientMap: createGradientTexture()
             });
@@ -54,7 +54,7 @@ function createMaterial() {
                 roughness
             });
     }
-    
+
     return material;
 }
 
@@ -62,11 +62,11 @@ function createMaterial() {
 function updateMaterial() {
     const currentShape = document.querySelector('scene').getObjectByProperty('type', 'Mesh');
     if (!currentShape) return;
-    
+
     const materialType = document.getElementById('materialType').value;
     const metalness = parseFloat(document.getElementById('metalness').value);
     const roughness = parseFloat(document.getElementById('roughness').value);
-    
+
     if (materialType === 'physical' || materialType === 'standard') {
         currentShape.material.metalness = metalness;
         currentShape.material.roughness = roughness;
@@ -85,15 +85,15 @@ function createGradientTexture() {
     canvas.height = 1;
     const context = canvas.getContext('2d');
     const gradient = context.createLinearGradient(0, 0, 256, 0);
-    
+
     gradient.addColorStop(0, '#000000');
     gradient.addColorStop(0.33, '#888888');
     gradient.addColorStop(0.66, '#cccccc');
     gradient.addColorStop(1, '#ffffff');
-    
+
     context.fillStyle = gradient;
     context.fillRect(0, 0, 256, 1);
-    
+
     const texture = new THREE.CanvasTexture(canvas);
     texture.needsUpdate = true;
     return texture;
